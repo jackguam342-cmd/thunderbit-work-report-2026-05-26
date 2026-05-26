@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>5月26日工作汇报 · Thunderbit Ops</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --surface-2: #f5f5f4;
+    --border: #e7e5e4;
+    --border-strong: #d6d3d1;
+    --text: #0a0a0a;
+    --text-2: #44403c;
+    --text-dim: #78716c;
+    --text-faint: #a8a29e;
+    --accent: #635bff;
+    --accent-soft: #ede9fe;
+    --accent-deep: #4f46e5;
+    --green: #16a34a;
+    --green-soft: #dcfce7;
+    --red: #dc2626;
+    --red-soft: #fee2e2;
+    --amber-soft: #fef3c7;
+    --amber-deep: #d97706;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "PingFang SC", "Hiragino Sans GB", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 32px 28px 80px; }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 24px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .brand-mark {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(99, 91, 255, 0.3);
+  }
+  .brand-name { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--text);
+  }
+  .meta { text-align: right; }
+  .meta-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-bottom: 6px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px;
+    font-size: 12px; font-weight: 500;
+    background: var(--green-soft); color: var(--green);
+  }
+  .badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+  }
+  .meta-text { font-size: 12px; color: var(--text-dim); }
+  .meta-text b { color: var(--text); font-weight: 500; }
+
+  /* Section heading */
+  .section-heading {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin: 8px 0 14px;
+  }
+  .section-heading h2 {
+    font-size: 13px; font-weight: 600; color: var(--text-dim);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin: 0;
+  }
+  .section-heading .heading-sub { font-size: 12px; color: var(--text-faint); }
+
+  /* KPI */
+  .kpis {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-bottom: 28px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow-sm);
+  }
+  .kpi-label { font-size: 12px; color: var(--text-dim); font-weight: 500; margin-bottom: 12px; }
+  .kpi-value {
+    font-size: 32px; font-weight: 600; letter-spacing: -0.025em;
+    color: var(--text); font-variant-numeric: tabular-nums;
+    line-height: 1.1; display: inline-block;
+  }
+  .kpi-delta {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 10px;
+    font-size: 12px; font-weight: 500;
+    padding: 3px 8px; border-radius: 6px;
+  }
+  .kpi-delta.up { color: var(--green); background: var(--green-soft); }
+  .kpi-delta.down { color: var(--red); background: var(--red-soft); }
+  .kpi-delta.flat { color: var(--text-dim); background: var(--surface-2); }
+
+  /* Panel */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+  }
+  .panel-head {
+    padding: 18px 22px 14px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-title { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .panel-sub { font-size: 13px; color: var(--text-dim); margin-left: 8px; font-weight: 400; }
+  .panel-body { padding: 8px 22px 18px; }
+
+  /* Wins / items list */
+  .win-list { list-style: none; padding: 0; margin: 0; }
+  .win-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .win-item:last-child { border-bottom: none; }
+  .win-check {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--green-soft); color: var(--green);
+    display: grid; place-items: center;
+    font-size: 12px; font-weight: 700;
+    margin-top: 1px;
+  }
+  .win-text { font-size: 13.5px; color: var(--text); line-height: 1.55; flex: 1; }
+  .win-text b { color: var(--text); font-weight: 600; }
+  .win-text .muted { color: var(--text-dim); font-weight: 400; }
+
+  /* Table */
+  .table { width: 100%; border-collapse: collapse; }
+  .table th, .table td {
+    padding: 13px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .table th:first-child, .table td:first-child { padding-left: 22px; }
+  .table th:last-child, .table td:last-child { padding-right: 22px; text-align: right; }
+  .table.text-table th:last-child, .table.text-table td:last-child { text-align: left; }
+  .table th {
+    color: var(--text-dim); font-weight: 500; font-size: 11px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    background: var(--surface);
+  }
+  .table tr:last-child td { border-bottom: none; }
+  .table tbody tr { transition: background 0.1s; }
+  .table tbody tr:hover { background: var(--surface-2); }
+  .rank {
+    color: var(--text-faint); font-variant-numeric: tabular-nums;
+    width: 24px; font-weight: 500;
+  }
+  .page-cell {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12.5px; color: var(--text); word-break: break-all;
+  }
+  .num { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 500; }
+  .num-strong { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
+  .delta {
+    font-variant-numeric: tabular-nums; font-size: 12px;
+    padding: 2px 8px; border-radius: 6px;
+    display: inline-block; min-width: 56px; text-align: center; font-weight: 500;
+  }
+  .delta.up { color: var(--green); background: var(--green-soft); }
+  .delta.down { color: var(--red); background: var(--red-soft); }
+  .delta.flat { color: var(--text-dim); background: var(--surface-2); }
+
+  /* Status chips for delivery table */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500;
+    padding: 3px 10px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .chip.done { background: var(--green-soft); color: var(--green); }
+  .chip.wip { background: var(--amber-soft); color: var(--amber-deep); }
+  .chip.todo { background: var(--surface-2); color: var(--text-dim); }
+  .chip .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .progress-bar {
+    display: inline-block; width: 80px; height: 6px;
+    background: var(--surface-2); border-radius: 999px; vertical-align: middle;
+    margin-right: 8px; overflow: hidden;
+  }
+  .progress-bar > i {
+    display: block; height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+    border-radius: 999px;
+  }
+  .progress-text { font-size: 12px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+
+  /* Plan list */
+  .plan-list { list-style: none; padding: 0; margin: 0; }
+  .plan-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13.5px; color: var(--text);
+  }
+  .plan-item:last-child { border-bottom: none; }
+  .plan-dot {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    background: var(--accent-soft); color: var(--accent-deep);
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 700;
+    margin-top: 1px;
+  }
+
+  /* Entry reveal */
+  .anim { opacity: 0; transform: translateY(8px); animation: revealIn 450ms cubic-bezier(0.215, 0.61, 0.355, 1) forwards; }
+  .anim[data-stagger="1"] { animation-delay: 80ms; }
+  .anim[data-stagger="2"] { animation-delay: 160ms; }
+  .anim[data-stagger="3"] { animation-delay: 240ms; }
+  .anim[data-stagger="4"] { animation-delay: 320ms; }
+  .anim[data-stagger="5"] { animation-delay: 400ms; }
+  @keyframes revealIn { to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    .container { padding: 24px 16px 64px; }
+    .header { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .meta { text-align: left; }
+    .meta-row { justify-content: flex-start; }
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .panel { overflow-x: auto; }
+    .table { min-width: 720px; }
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 13px; }
+    .title { font-size: 24px; }
+    .section-heading { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .kpis { grid-template-columns: 1fr; }
+    .kpi { padding: 18px; }
+    .kpi-value { font-size: 28px; }
+    .panel-head, .panel-body { padding-left: 16px; padding-right: 16px; }
+    .win-text, .plan-item { font-size: 13px; }
+  }
+
+  /* Print */
+  @media print {
+    .anim { opacity: 1 !important; transform: none !important; animation: none !important; }
+    body { background: #fff; }
+    .panel, .kpi { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header anim">
+    <div>
+      <div class="brand-row">
+        <div class="brand-mark">TB</div>
+        <div class="brand-name">Thunderbit Ops</div>
+      </div>
+      <h1 class="title">5月26日工作汇报</h1>
+    </div>
+    <div class="meta">
+      <div class="meta-row">
+        <span class="badge"><span class="dot"></span>已发布</span>
+      </div>
+      <div class="meta-text">数据窗口 · <b>2026-05-17 → 2026-05-24</b></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: 核心数据变化 -->
+  <div class="section-heading anim" data-stagger="1">
+    <h2>核心数据变化</h2>
+    <span class="heading-sub">2026-05-17 → 2026-05-24 vs 上周期 2026-05-09 → 2026-05-16</span>
+  </div>
+  <div class="kpis anim" data-stagger="1">
+    <div class="kpi">
+      <div class="kpi-label">GSC 总点击</div>
+      <span class="kpi-value">26,992</span>
+      <div class="kpi-delta up">↑ +7.8% WoW</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">GSC 总曝光</div>
+      <span class="kpi-value">1.41M</span>
+      <div class="kpi-delta down">↓ -4.4% WoW</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">GSC 平均 CTR</div>
+      <span class="kpi-value">1.91%</span>
+      <div class="kpi-delta up">↑ +0.22pp</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">GSC 平均排名</div>
+      <span class="kpi-value">11.78</span>
+      <div class="kpi-delta down">↓ +0.55</div>
+    </div>
+  </div>
+
+  <div class="panel anim" data-stagger="2">
+    <div class="panel-head">
+      <div>
+        <span class="panel-title">SEO 渠道销售数据</span>
+        <span class="panel-sub">Amplitude · 当前 key 可读,但未读到支付事件</span>
+      </div>
+    </div>
+    <table class="table text-table">
+      <thead>
+        <tr>
+          <th>指标</th>
+          <th>本周期</th>
+          <th>上周期</th>
+          <th>变化</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PAYMENT 事件</td>
+          <td class="num-strong">0</td>
+          <td class="num">0</td>
+          <td><span class="delta flat">0</span></td>
+          <td>这组 Amplitude 项目当前只有注册、页面浏览、元素点击/变更、session、replay 等事件。</td>
+        </tr>
+        <tr>
+          <td>SEO 归因销售额</td>
+          <td class="num-strong">不可计算</td>
+          <td class="num">不可计算</td>
+          <td><span class="delta flat">N/A</span></td>
+          <td>需要 payment 项目的 Amplitude key,或在 PAYMENT 事件上补齐 utm / referrer / landing page 归因字段。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel anim" data-stagger="2">
+    <div class="panel-head">
+      <div>
+        <span class="panel-title">GSC Top 5 涨势页面</span>
+        <span class="panel-sub">按点击增量排序</span>
+      </div>
+    </div>
+    <table class="table text-table">
+      <thead>
+        <tr>
+          <th class="rank">#</th>
+          <th>页面</th>
+          <th>本周点击</th>
+          <th>上周点击</th>
+          <th>WoW 增量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">01</td>
+          <td class="page-cell">/ar/blog/find-all-social-media-accounts-by-phone-number</td>
+          <td class="num-strong">1,948</td>
+          <td class="num">1,760</td>
+          <td><span class="delta up">+188 (+11%)</span></td>
+        </tr>
+        <tr>
+          <td class="rank">02</td>
+          <td class="page-cell">/zh-Hans/tool/bin-checker</td>
+          <td class="num-strong">356</td>
+          <td class="num">209</td>
+          <td><span class="delta up">+147 (+70%)</span></td>
+        </tr>
+        <tr>
+          <td class="rank">03</td>
+          <td class="page-cell">/pt/tool/image-extractor-from-website</td>
+          <td class="num-strong">632</td>
+          <td class="num">505</td>
+          <td><span class="delta up">+127 (+25%)</span></td>
+        </tr>
+        <tr>
+          <td class="rank">04</td>
+          <td class="page-cell">/</td>
+          <td class="num-strong">861</td>
+          <td class="num">744</td>
+          <td><span class="delta up">+117 (+16%)</span></td>
+        </tr>
+        <tr>
+          <td class="rank">05</td>
+          <td class="page-cell">/ja/blog/find-all-social-media-accounts-by-phone-number</td>
+          <td class="num-strong">233</td>
+          <td class="num">132</td>
+          <td><span class="delta up">+101 (+77%)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 2: 主要事项 -->
+  <div class="section-heading anim" data-stagger="3">
+    <h2>主要事项</h2>
+    <span class="heading-sub">本周工作进展</span>
+  </div>
+  <div class="panel anim" data-stagger="3">
+    <table class="table text-table">
+      <thead>
+        <tr>
+          <th style="width: 32%;">事项</th>
+          <th>进度</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>文章时效性优化</td>
+          <td>已优化 411 篇</td>
+        </tr>
+        <tr>
+          <td>文章本地化深度优化</td>
+          <td>完成 5 个语言（日、韩、德、西、法），共 260 个页面</td>
+        </tr>
+        <tr>
+          <td>MCP 提交</td>
+          <td>已提交约 25 个页面，15 个已收录，10 个排查中</td>
+        </tr>
+        <tr>
+          <td>公关稿发布</td>
+          <td>已由 Yahoo Finance 及 3-4 家媒体引用</td>
+        </tr>
+        <tr>
+          <td>邀请评测</td>
+          <td>暂无新增，拟调整策略：产品内置弹窗引导奖励现金，或迭代用户筛选并重发邮件</td>
+        </tr>
+        <tr>
+          <td>Use Case 页面调研</td>
+          <td>调研中</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 3: 本周其他事项 -->
+  <div class="section-heading anim" data-stagger="4">
+    <h2>本周其他事项</h2>
+    <span class="heading-sub">Codex + Claude 项目记录补充</span>
+  </div>
+  <div class="panel anim" data-stagger="4">
+    <div class="panel-body">
+      <ul class="win-list">
+        <li class="win-item">
+          <span class="win-check">✓</span>
+          <span class="win-text"><b>建立知识图谱</b> — 完成 SEO operations 仓库 graphify 索引，覆盖 30 个 skill，生成 411 节点 / 643 边，后续可直接 query 能力关系。</span>
+        </li>
+        <li class="win-item">
+          <span class="win-check">✓</span>
+          <span class="win-text"><b>开始搭建新工作台</b> — 以本周工作汇报为 POC，先跑通 GSC / Amplitude / 项目记录汇总到 HTML 的自动报告链路。</span>
+        </li>
+        <li class="win-item">
+          <span class="win-check">✓</span>
+          <span class="win-text"><b>开发实习生 onboarding 自动化工具</b> — 完成 5 分钟细心度测试原型，包含找不同、指令陷阱、数据校对三段任务，并已做 surge + GitHub Pages 双部署。</span>
+        </li>
+        <li class="win-item">
+          <span class="win-check">✓</span>
+          <span class="win-text"><b>团队 memory 与 install 链路整理</b> — 扩展 install.sh，随仓发布 21 条 shared memory 与预建知识图谱，降低新人上手成本。</span>
+        </li>
+        <li class="win-item">
+          <span class="win-check">✓</span>
+          <span class="win-text"><b>本地化工作台辅助能力升级</b> — localize-batch-workbench 增加 surge 国内免 VPN 预览链路，方便团队成员审稿。</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 4: 当前计划 -->
+  <div class="section-heading anim" data-stagger="5">
+    <h2>当前计划</h2>
+    <span class="heading-sub">下周重点</span>
+  </div>
+  <div class="panel anim" data-stagger="5">
+    <div class="panel-body">
+      <ul class="plan-list">
+        <li class="plan-item">
+          <span class="plan-dot">1</span>
+          <span><b>SEO 渠道销售归因补齐</b> · 确认 payment 项目的 Amplitude key / PAYMENT 事件,并把 utm、referrer、landing page 写入销售归因口径。</span>
+        </li>
+        <li class="plan-item">
+          <span class="plan-dot">2</span>
+          <span><b>GSC 曝光下滑诊断</b> · 5/17-5/24 点击 +7.8%,但 impressions -4.4% / 排名 +0.55 变差;重点看 find-all-social-media 系列在 PT / EN / ES 的点击回落。</span>
+        </li>
+        <li class="plan-item">
+          <span class="plan-dot">3</span>
+          <span><b>邀请评测策略调整</b> · 评估产品内置弹窗 + 现金奖励方案,并重做用户筛选后补发邮件。</span>
+        </li>
+        <li class="plan-item">
+          <span class="plan-dot">4</span>
+          <span><b>Use Case 页面调研</b> · 梳理页面类型、关键词入口和竞品结构,沉淀下一批页面生产建议。</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
